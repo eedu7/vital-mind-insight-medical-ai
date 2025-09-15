@@ -3,7 +3,10 @@ from fastapi import FastAPI
 
 
 def create_app() -> FastAPI:
-    app_ = FastAPI(title="Backend API")
+    app_ = FastAPI(
+        title="VitalMind Insight Medical AI",
+        description="Backend service powering an AI-driven medical chatbot with advanced healthcare insights.",
+    )
 
     app_.include_router(router)
 
