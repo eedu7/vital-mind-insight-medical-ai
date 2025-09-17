@@ -1,5 +1,6 @@
 import uvicorn
-from core.config import Environment, config
+
+from app.core.config import Environment, config
 
 if __name__ == "__main__":
     uvicorn.run(

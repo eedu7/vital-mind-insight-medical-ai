@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class Health(BaseModel):
-    API_VERSION: str
-    TITLE: str
-    DESCRIPTION: str
+    api_version: str
+    title: str
+    description: str
