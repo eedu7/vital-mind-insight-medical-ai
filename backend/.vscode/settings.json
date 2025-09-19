@@ -52,6 +52,7 @@
         "**/env/**": true,
         "**/venv/**": true
     },
+    "python-envs.pythonProjects": [],
     "python.analysis.addHoverSummaries": true,
     "python.analysis.autoFormatStrings": true,
     "python.analysis.autoImportCompletions": true,
