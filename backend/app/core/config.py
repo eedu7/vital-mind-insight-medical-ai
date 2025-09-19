@@ -35,14 +35,16 @@ class Config(BaseSettings):
     ALLOW_CREDENTIALS: bool = True
 
     @property
-    def DATABASE_URL(self) -> PostgresDsn:
-        return PostgresDsn.build(
-            scheme="postgresql+asyncpg",
-            username=self.POSTGRES_USER,
-            password=self.POSTGRES_PASSWORD,
-            host=self.POSTGRES_DB_HOST,
-            port=self.POSTGRES_DB_PORT,
-            path=f"/{self.POSTGRES_DB}",
+    def DATABASE_URL(self) -> str:
+        return str(
+            PostgresDsn.build(
+                scheme="postgresql+asyncpg",
+                username=self.POSTGRES_USER,
+                password=self.POSTGRES_PASSWORD,
+                host=self.POSTGRES_DB_HOST,
+                port=self.POSTGRES_DB_PORT,
+                path=f"/{self.POSTGRES_DB}",
+            )
         )
 
     @property
@@ -58,7 +60,7 @@ class Config(BaseSettings):
         return [header.strip() for header in self.ALLOWED_HEADERS.split(sep=",") if header.strip()]
 
     @property
-    def CORS_ALLOW_CREDENTIAL(self) -> bool:
+    def CORS_ALLOW_CREDENTIALS(self) -> bool:
         return self.ALLOW_CREDENTIALS
 
     model_config = SettingsConfigDict(
