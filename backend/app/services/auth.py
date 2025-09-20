@@ -1,21 +1,39 @@
 from argon2.exceptions import HashingError
 from fastapi import HTTPException, status
 from pydantic import EmailStr
+from schemas.user import UserResponse
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import Transaction
 from app.models import User
 from app.repositories import UserRepository
+from app.schemas.auth import AuthResponse
+from app.schemas.token import Token
 from app.utils import PasswordManager
+from app.utils.jwt_manager import JWTManager
 
 
 class AuthService:
     def __init__(self) -> None:
         self.repository = UserRepository(model=User)
+        self.jwt_manager = JWTManager()
+
+    def _generate_token(self, user: User) -> Token:
+        """
+        Generate access and refresh tokens for a given user.
+        """
+        try:
+            access_token = self.jwt_manager.create_access_token(str(user.uuid))
+            refresh_token = self.jwt_manager.create_refresh_token(str(user.uuid))
+            return Token(access_token=access_token, refresh_token=refresh_token)
+        except Exception:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate authentication tokens."
+            )
 
     @Transaction()
-    async def register(self, email: EmailStr, password: str, *, session: AsyncSession):
+    async def register(self, email: EmailStr, password: str, *, session: AsyncSession) -> AuthResponse:
         user = await self.repository.get_by_email(str(email), session)
 
         if user:
@@ -28,8 +46,13 @@ class AuthService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal error while hashing password."
             )
         try:
-            return await self.repository.create_user(email=str(email), hashed_password=hashed_password, session=session)
+            new_user = await self.repository.create_user(
+                email=str(email), hashed_password=hashed_password, session=session
+            )
         except IntegrityError:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User with this email already exists.")
         except Exception:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create user.")
+
+        token = self._generate_token(new_user)
+        return AuthResponse(token=token, user=UserResponse(uuid=new_user.uuid, email=new_user.email))
