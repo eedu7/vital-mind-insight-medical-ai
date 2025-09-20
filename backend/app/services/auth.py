@@ -1,3 +1,6 @@
+from typing import cast
+from uuid import UUID
+
 from argon2.exceptions import HashingError
 from fastapi import HTTPException, status
 from sqlalchemy.exc import IntegrityError
@@ -70,3 +73,24 @@ class AuthService:
             )
         token = self._generate_token(user)
         return AuthResponse(token=token, user=UserResponse(uuid=user.uuid, email=user.email))
+
+    async def refresh_token(self, refresh_token: str, session: AsyncSession) -> Token:
+        try:
+            payload = self.jwt_manager.decode_token(refresh_token)
+        except Exception as exc:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(exc))
+
+        if payload.get("type") != "refresh":
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str("Invalid token type"))
+
+        user_uuid = cast(UUID | None, payload.get("sub", None))
+
+        if not user_uuid:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str("Invalid token payload"))
+
+        user = await self.repository.get_by_uuid(user_uuid, session)
+
+        if not user:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str("User not found"))
+
+        return self._generate_token(user)
