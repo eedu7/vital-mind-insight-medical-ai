@@ -34,6 +34,12 @@ class Config(BaseSettings):
     ALLOWED_HEADERS: str = "*"
     ALLOW_CREDENTIALS: bool = True
 
+    # JWT
+    JWT_ISSUER: str = "my-backend"
+    JWT_AUDIENCE: str = "my-api"
+    JWT_PRIVATE_KEY_PATH: Path = BASE_DIR / "app/core/keys/private_test.pem"
+    JWT_PUBLIC_KEY_PATH: Path = BASE_DIR / "app/core/keys/public_test.pem"
+
     @property
     def DATABASE_URL(self) -> str:
         return str(
@@ -62,6 +68,14 @@ class Config(BaseSettings):
     @property
     def CORS_ALLOW_CREDENTIALS(self) -> bool:
         return self.ALLOW_CREDENTIALS
+
+    @property
+    def JWT_PRIVATE_KEY(self) -> str:
+        return (BASE_DIR / self.JWT_PRIVATE_KEY_PATH).read_text(encoding="utf-8")
+
+    @property
+    def JWT_PUBLIC_KEY(self) -> str:
+        return (BASE_DIR / self.JWT_PUBLIC_KEY_PATH).read_text(encoding="utf-8")
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE if ENV_FILE.exists() else None,
