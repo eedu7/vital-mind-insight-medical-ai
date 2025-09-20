@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.api.route import router
-from app.core.middlewares import init_middlewares
+from app.middlewares import init_middlewares
 
 
 def create_app() -> FastAPI:
