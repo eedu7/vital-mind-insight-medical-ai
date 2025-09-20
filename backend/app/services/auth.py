@@ -1,7 +1,5 @@
 from argon2.exceptions import HashingError
 from fastapi import HTTPException, status
-from pydantic import EmailStr
-from schemas.user import UserResponse
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -10,6 +8,7 @@ from app.models import User
 from app.repositories import UserRepository
 from app.schemas.auth import AuthResponse
 from app.schemas.token import Token
+from app.schemas.user import UserResponse
 from app.utils import PasswordManager
 from app.utils.jwt_manager import JWTManager
 
@@ -33,8 +32,8 @@ class AuthService:
             )
 
     @Transaction()
-    async def register(self, email: EmailStr, password: str, *, session: AsyncSession) -> AuthResponse:
-        user = await self.repository.get_by_email(str(email), session)
+    async def register(self, email: str, password: str, *, session: AsyncSession) -> AuthResponse:
+        user = await self.repository.get_by_email(email, session)
 
         if user:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists.")
@@ -56,3 +55,18 @@ class AuthService:
 
         token = self._generate_token(new_user)
         return AuthResponse(token=token, user=UserResponse(uuid=new_user.uuid, email=new_user.email))
+
+    async def login(self, email: str, password: str, session: AsyncSession) -> AuthResponse:
+        user = await self.repository.get_by_email(email=email, session=session)
+
+        if not user:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        try:
+            if not PasswordManager.verify_password(user.hashed_password, password):
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        except HashingError:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal error while verifying password"
+            )
+        token = self._generate_token(user)
+        return AuthResponse(token=token, user=UserResponse(uuid=user.uuid, email=user.email))
