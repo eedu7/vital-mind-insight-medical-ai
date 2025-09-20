@@ -24,7 +24,7 @@ class JWTManager:
         self.issuer = config.JWT_ISSUER
         self.audience = config.JWT_AUDIENCE
         self.private_key = config.JWT_PRIVATE_KEY
-        self.pubic_key = config.JWT_PUBLIC_KEY
+        self.public_key = config.JWT_PUBLIC_KEY
         self.access_expire_minutes = config.JWT_ACCESS_TOKEN_EXPIRE_MINUTES
         self.refresh_expire_minutes = config.JWT_REFRESH_TOKEN_EXPIRE_MINUTES
 
@@ -39,7 +39,7 @@ class JWTManager:
 
     def create_refresh_token(self, subject: str) -> str:
         now = datetime.now(UTC)
-        expire = (now + timedelta(minutes=self.access_expire_minutes)).timestamp()
+        expire = (now + timedelta(minutes=self.refresh_expire_minutes)).timestamp()
 
         payload: Dict[str, Any] = {
             "sub": subject,
@@ -57,7 +57,7 @@ class JWTManager:
     def verify_token(self, token: str) -> Dict[str, Any]:
         try:
             return jwt.decode(
-                token, self.pubic_key, algorithms=[self.algorithm], issuer=self.issuer, audience=self.audience
+                token, self.public_key, algorithms=[self.algorithm], issuer=self.issuer, audience=self.audience
             )
         except ExpiredSignatureError:
             raise ValueError("Token has expired")
