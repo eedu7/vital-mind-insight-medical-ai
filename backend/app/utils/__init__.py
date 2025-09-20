@@ -1,3 +1,3 @@
-from .password_manager import PasswordHasher
+from .password_manager import PasswordManager
 
-__all__ = ["PasswordHasher"]
+__all__ = ["PasswordManager"]
