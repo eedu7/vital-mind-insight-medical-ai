@@ -35,8 +35,11 @@ class Config(BaseSettings):
     ALLOW_CREDENTIALS: bool = True
 
     # JWT
+    JWT_ALGORITHM: str = "RS256"
     JWT_ISSUER: str = "my-backend"
     JWT_AUDIENCE: str = "my-api"
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
+    JWT_REFRESH_TOKEN_EXPIRE_MINUTES: int = 15 * 24
     JWT_PRIVATE_KEY_PATH: Path = BASE_DIR / "app/core/keys/private_test.pem"
     JWT_PUBLIC_KEY_PATH: Path = BASE_DIR / "app/core/keys/public_test.pem"
 
