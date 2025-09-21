@@ -2,7 +2,7 @@ from enum import StrEnum
 from pathlib import Path
 from typing import List
 
-from pydantic import PostgresDsn
+from pydantic import PostgresDsn, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -43,6 +43,7 @@ class Config(BaseSettings):
     JWT_PRIVATE_KEY_PATH: Path = BASE_DIR / "app/core/keys/private_test.pem"
     JWT_PUBLIC_KEY_PATH: Path = BASE_DIR / "app/core/keys/public_test.pem"
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def DATABASE_URL(self) -> str:
         return str(
@@ -56,26 +57,32 @@ class Config(BaseSettings):
             )
         )
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def CORS_ALLOWED_ORIGINS(self) -> List[str]:
         return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(sep=",") if origin.strip()]
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def CORS_ALLOWED_METHODS(self) -> List[str]:
         return [method.strip() for method in self.ALLOWED_METHODS.split(sep=",") if method.strip()]
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def CORS_ALLOWED_HEADERS(self) -> List[str]:
         return [header.strip() for header in self.ALLOWED_HEADERS.split(sep=",") if header.strip()]
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def CORS_ALLOW_CREDENTIALS(self) -> bool:
         return self.ALLOW_CREDENTIALS
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def JWT_PRIVATE_KEY(self) -> str:
         return (BASE_DIR / self.JWT_PRIVATE_KEY_PATH).read_text(encoding="utf-8")
 
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def JWT_PUBLIC_KEY(self) -> str:
         return (BASE_DIR / self.JWT_PUBLIC_KEY_PATH).read_text(encoding="utf-8")
