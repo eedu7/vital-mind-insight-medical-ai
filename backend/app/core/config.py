@@ -38,8 +38,8 @@ class Config(BaseSettings):
     JWT_ALGORITHM: str = "RS256"
     JWT_ISSUER: str = "https://vitalmind.ai"
     JWT_AUDIENCE: str = "https://vitalmind.ai/users"
-    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
-    JWT_REFRESH_TOKEN_EXPIRE_MINUTES: int = 15 * 24
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24
+    JWT_REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7
     JWT_PRIVATE_KEY_PATH: Path = BASE_DIR / "app/core/keys/private_test.pem"
     JWT_PUBLIC_KEY_PATH: Path = BASE_DIR / "app/core/keys/public_test.pem"
 
@@ -88,8 +88,7 @@ class Config(BaseSettings):
         return (BASE_DIR / self.JWT_PUBLIC_KEY_PATH).read_text(encoding="utf-8")
 
     model_config = SettingsConfigDict(
-        env_file=ENV_FILE if ENV_FILE.exists() else None,
-        extra="ignore",
+        env_file=ENV_FILE if ENV_FILE.exists() else None, extra="ignore", env_ignore_empty=True
     )
 
 

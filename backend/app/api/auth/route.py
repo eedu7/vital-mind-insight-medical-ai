@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import get_session
@@ -36,3 +36,8 @@ async def refresh_token(
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
     return await auth_service.refresh_token(data.refresh_token, session)
+
+
+@router.post("/logout")
+async def logout():
+    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Not Implemented")
