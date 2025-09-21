@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next
+out
+dist
+
+# Coverage
+coverage
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment files
+.env
+.env.* 
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings
+.vscode
+.idea
+
+# Prettier itself
+.prettierignore
+
+# Generated / compiled files
+*.min.js
+*.min.css
+
+# Optional: static exports
+export
+
+# Next.js types
+.next/types
