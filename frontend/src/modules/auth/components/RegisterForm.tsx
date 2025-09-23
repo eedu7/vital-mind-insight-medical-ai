@@ -3,19 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useAuth from "@/modules/auth/hooks/useAuth";
+import { RegisterFormSchema, RegisterFormSchemaType } from "@/modules/auth/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoaderQuarter } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-const formSchema = z.object({
-	email: z.email(),
-	password: z.string(),
-});
 
 export const RegisterForm = () => {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<RegisterFormSchemaType>({
+		resolver: zodResolver(RegisterFormSchema),
 		defaultValues: {
 			email: "",
 			password: "",
@@ -25,7 +20,7 @@ export const RegisterForm = () => {
 
 	const { register } = useAuth();
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
+	const onSubmit = (values: RegisterFormSchemaType) => {
 		register.mutateAsync(values);
 	};
 
@@ -39,7 +34,7 @@ export const RegisterForm = () => {
 						<FormItem>
 							<FormLabel>Email</FormLabel>
 							<FormControl>
-								<Input placeholder="e.g, example@example.example" {...field} />
+								<Input type="email" autoComplete="email" placeholder="e.g, example@example.example" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -52,7 +47,7 @@ export const RegisterForm = () => {
 						<FormItem>
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input placeholder="e.g, Password@123" {...field} />
+								<Input type="password" autoComplete="new-password" placeholder="e.g, Password@123" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -62,6 +57,7 @@ export const RegisterForm = () => {
 					type="submit"
 					className="w-full cursor-pointer"
 					disabled={!form.formState.isValid || register.isPending}
+					aria-disabled={!form.formState.isValid || register.isPending}
 				>
 					{register.isPending ? (
 						<div className="flex items-center gap-x-2">

@@ -6,4 +6,4 @@ export const RegisterFormSchema = z.object({
 	password: z.string(),
 });
 
-export type RegisterFormSchema = z.infer<typeof RegisterFormSchema>;
+export  type RegisterFormSchemaType = z.infer<typeof RegisterFormSchema>;
