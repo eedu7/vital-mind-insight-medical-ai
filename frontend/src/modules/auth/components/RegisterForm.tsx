@@ -2,7 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import useAuth from "@/modules/auth/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconLoaderQuarter } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -18,10 +20,13 @@ export const RegisterForm = () => {
 			email: "",
 			password: "",
 		},
+		mode: "onChange",
 	});
 
+	const { register } = useAuth();
+
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log(values);
+		register.mutateAsync(values);
 	};
 
 	return (
@@ -53,8 +58,19 @@ export const RegisterForm = () => {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" className="w-full">
-					Register
+				<Button
+					type="submit"
+					className="w-full cursor-pointer"
+					disabled={!form.formState.isValid || register.isPending}
+				>
+					{register.isPending ? (
+						<div className="flex items-center gap-x-2">
+							<IconLoaderQuarter className="repeat-infinite animate-spin" />
+							<span className="text-gray-200">Registering...</span>
+						</div>
+					) : (
+						<span>Register</span>
+					)}
 				</Button>
 			</form>
 		</Form>
