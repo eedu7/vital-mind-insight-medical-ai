@@ -18,6 +18,10 @@
 	"editor.suggestOnTriggerCharacters": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.codeActionsOnSave": {
+		"source.sortImports": "always",
+		"source.removeUnusedImports": "always",
+		"source.addMissingImports.ts": "always",
+		"source.fixAll.ts": "always",
 		"source.fixAll": "always",
 		"source.fixAll.eslint": "always",
 		"source.organizeImports": "always"
