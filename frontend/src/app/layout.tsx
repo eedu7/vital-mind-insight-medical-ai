@@ -1,4 +1,5 @@
 import { TanstackReactQueryProvider } from "@/lib/api";
+import { AuthProvider } from "@/modules/auth/context/AuthContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -26,7 +27,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<TanstackReactQueryProvider>{children}</TanstackReactQueryProvider>
+				<TanstackReactQueryProvider>
+					<AuthProvider>{children}</AuthProvider>
+				</TanstackReactQueryProvider>
 			</body>
 		</html>
 	);

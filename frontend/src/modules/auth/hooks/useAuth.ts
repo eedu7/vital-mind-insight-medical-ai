@@ -1,19 +1,8 @@
-import { loginApi, registerApi } from "@/modules/auth/services";
-import { useMutation } from "@tanstack/react-query";
+import { AuthContext } from "@/modules/auth/context/AuthContext";
+import { useContext } from "react";
 
-export default function useAuth() {
-	const register = useMutation({
-		mutationKey: ["register"],
-		mutationFn: registerApi,
-	});
-
-	const login = useMutation({
-		mutationKey: ["login"],
-		mutationFn: loginApi,
-	});
-
-	return {
-		register,
-		login,
-	};
-}
+export const useAuth = () => {
+	const context = useContext(AuthContext);
+	if (!context) throw new Error("useAuthContext must be used within AuthProvider");
+	return context;
+};

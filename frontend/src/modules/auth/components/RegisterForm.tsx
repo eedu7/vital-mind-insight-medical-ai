@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import useAuth from "@/modules/auth/hooks/useAuth";
+import { useAuth } from "@/modules/auth/hooks";
 import { RegisterFormSchema, RegisterFormSchemaType } from "@/modules/auth/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoaderQuarter } from "@tabler/icons-react";
@@ -18,10 +18,10 @@ export const RegisterForm = () => {
 		mode: "onChange",
 	});
 
-	const { register } = useAuth();
+	const { signUp } = useAuth();
 
 	const onSubmit = (values: RegisterFormSchemaType) => {
-		register.mutateAsync(values);
+		signUp.mutateAsync(values);
 	};
 
 	return (
@@ -56,10 +56,10 @@ export const RegisterForm = () => {
 				<Button
 					type="submit"
 					className="w-full cursor-pointer"
-					disabled={!form.formState.isValid || register.isPending}
-					aria-disabled={!form.formState.isValid || register.isPending}
+					disabled={!form.formState.isValid || signUp.isPending}
+					aria-disabled={!form.formState.isValid || signUp.isPending}
 				>
-					{register.isPending ? (
+					{signUp.isPending ? (
 						<div className="flex items-center gap-x-2">
 							<IconLoaderQuarter className="repeat-infinite animate-spin" />
 							<span className="text-gray-200">Registering...</span>
