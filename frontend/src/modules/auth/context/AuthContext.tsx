@@ -1,12 +1,11 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 import { loginApi, registerApi } from "@/modules/auth/services";
 import { AuthResponse } from "@/modules/auth/types";
 import setToken from "@/modules/auth/utils/set-tokens";
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -17,14 +16,14 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const router = useRouter();
+interface AuthProviderProps {
+	children: React.ReactNode;
+	initialAuth: boolean;
+}
 
-	useEffect(() => {
-		const token = Cookies.get("access_token");
-		setIsAuthenticated(!!token);
-	}, []);
+export const AuthProvider = ({ children, initialAuth }: AuthProviderProps) => {
+	const [isAuthenticated, setIsAuthenticated] = useState(initialAuth);
+	const router = useRouter();
 
 	const handleSuccess = (response: AuthResponse) => {
 		setToken(response);
