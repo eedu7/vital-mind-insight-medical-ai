@@ -1,7 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { EmailInput } from "@/modules/auth/components/ui/EmailInput";
+import PasswordInput from "@/modules/auth/components/ui/PasswordInput";
 import { useAuth } from "@/modules/auth/hooks";
 import { RegisterFormSchema, RegisterFormSchemaType } from "@/modules/auth/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +27,7 @@ export const RegisterForm = () => {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" autoComplete="on">
 				<FormField
 					control={form.control}
 					name="email"
@@ -34,7 +35,7 @@ export const RegisterForm = () => {
 						<FormItem>
 							<FormLabel>Email</FormLabel>
 							<FormControl>
-								<Input type="email" autoComplete="email" placeholder="e.g, example@example.example" {...field} />
+								<EmailInput {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -47,7 +48,7 @@ export const RegisterForm = () => {
 						<FormItem>
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input type="password" autoComplete="new-password" placeholder="e.g, Password@123" {...field} />
+								<PasswordInput autoComplete="new-password" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
