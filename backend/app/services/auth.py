@@ -35,10 +35,16 @@ class AuthService:
             )
 
     @Transaction()
-    async def register(self, email: str, password: str, *, session: AsyncSession) -> AuthResponse:
-        user = await self.repository.get_by_email(email, session)
+    async def register(
+        self,
+        email: str,
+        password: str,
+        *,
+        session: AsyncSession,
+    ) -> AuthResponse:
+        exist = await self.repository.get_by_email(email, session)
 
-        if user:
+        if exist:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists.")
 
         try:
@@ -48,7 +54,7 @@ class AuthService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal error while hashing password."
             )
         try:
-            new_user = await self.repository.create_user(
+            new_user: User = await self.repository.create_user(
                 email=str(email), hashed_password=hashed_password, session=session
             )
         except IntegrityError:
@@ -57,9 +63,17 @@ class AuthService:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create user.")
 
         token = self._generate_token(new_user)
-        return AuthResponse(token=token, user=UserResponse(uuid=new_user.uuid, email=new_user.email))
 
-    async def login(self, email: str, password: str, session: AsyncSession) -> AuthResponse:
+        user = UserResponse(uuid=new_user.uuid, email=new_user.email)
+
+        return AuthResponse(token=token, user=user)
+
+    async def login(
+        self,
+        email: str,
+        password: str,
+        session: AsyncSession,
+    ) -> AuthResponse:
         user = await self.repository.get_by_email(email=email, session=session)
 
         if not user:
@@ -71,8 +85,12 @@ class AuthService:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal error while verifying password"
             )
+
         token = self._generate_token(user)
-        return AuthResponse(token=token, user=UserResponse(uuid=user.uuid, email=user.email))
+
+        user_response = UserResponse(uuid=user.uuid, email=user.email)
+
+        return AuthResponse(token=token, user=user_response)
 
     async def refresh_token(self, refresh_token: str, session: AsyncSession) -> Token:
         try:
