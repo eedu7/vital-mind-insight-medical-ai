@@ -9,7 +9,6 @@ class AuthCookieManager:
         self.response = response
 
     def _set_cookie(self, key: str, value: str, max_age: int) -> None:
-        print("True")
         self.response.set_cookie(
             key=key,
             value=value,
