@@ -1,7 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { EmailInput } from "@/modules/auth/components/ui/EmailInput";
+import PasswordInput from "@/modules/auth/components/ui/PasswordInput";
 import { useAuth } from "@/modules/auth/hooks";
 import { LoginFormSchema, LoginFormSchemaType } from "@/modules/auth/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,7 +35,7 @@ export const LoginForm = () => {
 						<FormItem>
 							<FormLabel>Email</FormLabel>
 							<FormControl>
-								<Input type="email" autoComplete="email" placeholder="e.g, example@example.example" {...field} />
+								<EmailInput {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -47,7 +48,7 @@ export const LoginForm = () => {
 						<FormItem>
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input type="password" autoComplete="new-password" placeholder="e.g, Password@123" {...field} />
+								<PasswordInput {...field} autoComplete="current-password" />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
