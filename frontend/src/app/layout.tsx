@@ -1,5 +1,5 @@
 import { TanstackReactQueryProvider } from "@/lib/api";
-import { AuthProvider } from "@/modules/auth/context/AuthContext";
+import { AuthProvider } from "@/modules/auth/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
