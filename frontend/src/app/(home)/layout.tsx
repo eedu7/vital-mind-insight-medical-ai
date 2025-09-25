@@ -1,14 +1,14 @@
 "use client";
+
 import { useAuth } from "@/modules/auth/hooks";
 import React from "react";
 
 interface HomeLayoutProps {
-	children: React.ReactNode;
-	public: React.ReactNode;
-	private: React.ReactNode;
+	home: React.ReactNode;
+	conversations: React.ReactNode;
 }
 
-export default function HomeLayout({ children, private: PrivatePage, public: PublicPage }: HomeLayoutProps) {
+export default function HomeLayout({ conversations: ConversationsPage, home: HomePage }: HomeLayoutProps) {
 	const { isAuthenticated } = useAuth();
-	return <div>{isAuthenticated ? PrivatePage : PublicPage}</div>;
+	return <div>{isAuthenticated ? ConversationsPage : HomePage}</div>;
 }
