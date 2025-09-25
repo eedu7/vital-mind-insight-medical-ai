@@ -25,9 +25,11 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("access_token")?.value || "";
-	const isAuthenticated = !!token;
+	const cookieStore = cookies();
+	const access_token = (await cookieStore).get("access_token")?.value;
+
+	const isAuthenticated = !!access_token;
+
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

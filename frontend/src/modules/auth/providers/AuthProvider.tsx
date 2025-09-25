@@ -4,8 +4,6 @@ import { useState } from "react";
 
 import { AuthContext } from "@/modules/auth/context/AuthContext";
 import { loginApi, registerApi } from "@/modules/auth/services";
-import { AuthResponse } from "@/modules/auth/types";
-import setToken from "@/modules/auth/utils/set-tokens";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -18,12 +16,11 @@ export const AuthProvider = ({ children, initialAuth }: AuthProviderProps) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(initialAuth);
 	const router = useRouter();
 
-	const handleSuccess = (response: AuthResponse) => {
-		setToken(response);
+	const handleSuccess = () => {
 		setIsAuthenticated(true);
 		router.push("/");
 	};
-
+	// TODO: Handle onError
 	const signUp = useMutation({
 		mutationKey: ["register"],
 		mutationFn: registerApi,

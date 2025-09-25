@@ -1,7 +1,7 @@
-import { RegisterForm } from "@/modules/auth/components";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { RegisterForm } from "@/modules/auth/components";
 import { IconBrandApple, IconBrandFacebook, IconBrandGoogle } from "@tabler/icons-react";
 import { Metadata } from "next";
 import Link from "next/link";
