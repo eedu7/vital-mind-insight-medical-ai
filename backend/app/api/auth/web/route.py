@@ -11,9 +11,7 @@ from app.utils.auth_cookies import AuthCookieManager
 router = APIRouter()
 
 
-@router.post(
-    "/register",
-)
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register_user(
     response: Response,
     data: RegisterRequest,

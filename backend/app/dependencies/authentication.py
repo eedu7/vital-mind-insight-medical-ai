@@ -12,13 +12,18 @@ class AuthenticationRequired:
         request: Request,
         credentials: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer(auto_error=False))],
     ) -> None:
-        if not credentials:
+        token: str | None = request.cookies.get("access_token")
+
+        if not token and credentials:
+            token = credentials.credentials
+
+        if not token:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
 
         jwt_manager = JWTManager()
 
         try:
-            payload: Dict[str, Any] = jwt_manager.verify_token(credentials.credentials)
+            payload: Dict[str, Any] = jwt_manager.verify_token(token)
             request.state.user = {
                 "uuid": payload.get("sub"),
             }
