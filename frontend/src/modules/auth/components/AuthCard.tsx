@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { IconBrandApple, IconBrandFacebook, IconBrandGoogle, ReactNode } from "@tabler/icons-react";
+import { OAuthButton } from "@/modules/auth/components/OAuthButton";
+import { ReactNode } from "@tabler/icons-react";
 import Link from "next/link";
 
 interface AuthCardProps {
@@ -21,7 +21,7 @@ export const AuthCard = ({ description, title, form, bottomText, bottomLinkText,
 			</div>
 
 			<div className="flex w-full items-center justify-center">
-				<Card className="w-full max-w-lg">
+				<Card className="w-full md:max-w-md lg:max-w-lg">
 					<CardHeader>
 						<CardDescription>{description}</CardDescription>
 						<CardTitle>{title}</CardTitle>
@@ -38,17 +38,7 @@ export const AuthCard = ({ description, title, form, bottomText, bottomLinkText,
 							<Separator className="flex-1" />
 						</div>
 
-						<div className="space-x-4">
-							<Button variant="outline" size="icon" className="cursor-pointer">
-								<IconBrandGoogle />
-							</Button>
-							<Button variant="outline" size="icon" className="cursor-pointer">
-								<IconBrandFacebook />
-							</Button>
-							<Button variant="outline" size="icon" className="cursor-pointer">
-								<IconBrandApple />
-							</Button>
-						</div>
+						<OAuthButton />
 					</CardFooter>
 				</Card>
 			</div>
