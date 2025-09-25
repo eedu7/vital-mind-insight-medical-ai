@@ -33,5 +33,5 @@ export const AuthProvider = ({ children, initialAuth }: AuthProviderProps) => {
 		onSuccess: handleSuccess,
 	});
 
-	return <AuthContext.Provider value={{ isAuthenticated, signIn, signUp }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ isAuthenticated, signIn, signUp, }}>{children}</AuthContext.Provider>;
 };

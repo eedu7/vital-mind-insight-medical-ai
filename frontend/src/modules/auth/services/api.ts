@@ -31,7 +31,8 @@ export async function loginApi(data: LoginRequest): Promise<AuthResponse> {
 		});
 
 		return response.json();
-	} catch {
-		throw new Error("Login failed");
+	} catch (err) {
+		alert(err);
+		throw err;
 	}
 }
