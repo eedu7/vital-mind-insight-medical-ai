@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ConversationCreate(BaseModel):
@@ -10,3 +10,5 @@ class ConversationCreate(BaseModel):
 class ConversationOut(BaseModel):
     uuid: UUID
     title: str
+
+    model_config = ConfigDict(from_attributes=True)
