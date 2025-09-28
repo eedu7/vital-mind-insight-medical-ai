@@ -119,8 +119,16 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+
+	.font-geist-sans {
+		font-family: var(--font-geist-sans), sans-serif;
+	}
+
+	.font-geist-mono {
+		font-family: var(--font-geist-mono), monospace;
+	}
+
+	.font-dancing-script {
+		font-family: var(--font-dancing-script), cursive;
+	}
 }
-/* 
-.react-flow__node .nodrag {
-	user-select: text !important;
-} */
