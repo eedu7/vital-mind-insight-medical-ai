@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { config } from "@/env";
 import { IconSparkles } from "@tabler/icons-react";
 import { ChangeEvent, useState } from "react";
 
@@ -11,11 +10,6 @@ export const PromptInputNode = () => {
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		try {
-			const res = await fetch(`${config.BASE_API_URL}/conversation`, {
-				
-			})
-		}
 	};
 
 	return (

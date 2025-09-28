@@ -1,19 +1,30 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { createConversationAPI } from "@/modules/conversations/services/api";
+import { ConversationResponse } from "@/modules/conversations/types";
 import { IconSparkles } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function ConversationPageView() {
 	const router = useRouter();
 	const [prompt, setPrompt] = useState("");
-	const onSubmit = async (e: FormEvent) => {
+
+	const createConversation = useMutation({
+		mutationKey: ["conversationPageView"],
+		mutationFn: createConversationAPI,
+		onSuccess: (data: ConversationResponse) => {
+			alert(JSON.stringify(data, null, 2));
+			router.push(`/c/${data?.uuid}`);
+		},
+	});
+
+	const onSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-
-		
-		
+		createConversation.mutateAsync({ title: prompt });
 	};
 
 	return (
@@ -27,7 +38,7 @@ export default function ConversationPageView() {
 						onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
 					/>
 					<div className="text-end">
-						<Button variant="outline" size="icon" className="cursor-pointer">
+						<Button type="submit" variant="outline" size="icon" className="cursor-pointer">
 							<IconSparkles />
 						</Button>
 					</div>
