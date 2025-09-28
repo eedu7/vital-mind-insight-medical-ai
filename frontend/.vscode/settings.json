@@ -51,7 +51,7 @@
 	"prettier.singleQuote": true,
 	"prettier.semi": true,
 	"prettier.trailingComma": "es5",
-	"prettier.printWidth": 100,
+	"prettier.printWidth": 120,
 	"prettier.tabWidth": 2,
 	"tailwindCSS.includeLanguages": {
 		"plaintext": "html",
