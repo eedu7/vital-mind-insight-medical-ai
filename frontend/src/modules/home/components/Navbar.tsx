@@ -14,7 +14,7 @@ type NavbarItem = {
 const navbarItems: NavbarItem[] = [
 	{
 		title: "Home",
-		href: "/",
+		href: "#hero",
 	},
 	{
 		title: "Pricing",
@@ -22,7 +22,7 @@ const navbarItems: NavbarItem[] = [
 	},
 	{
 		title: "Contact",
-		href: "#contact",
+		href: "#contact-us",
 	},
 
 	{
