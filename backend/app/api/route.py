@@ -16,4 +16,4 @@ router.include_router(
 )
 router.include_router(user_router, prefix="/user", tags=["User Management"])
 router.include_router(chat_router, tags=["Chat Learning"])
-router.include_router(conversation_router, tags=["Conversation"])
+router.include_router(conversation_router, prefix="/conversation", tags=["Conversation"])
