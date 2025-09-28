@@ -8,7 +8,7 @@ export default function PublicPage() {
 	return (
 		<div className="scroll-smooth duration-500 ease-in-out">
 			<Header />
-			<main className="my-4 space-y-12">
+			<main className="mt-18 mb-8 space-y-12">
 				<Hero />
 				<Pricing />
 				<ContactUs />

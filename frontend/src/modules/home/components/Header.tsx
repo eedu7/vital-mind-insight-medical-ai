@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export const Header = () => {
 	return (
-		<header>
-			<div className="mx-auto my-4 flex max-w-7xl items-center justify-between">
+		<header className="fixed top-0 w-full bg-slate-50 p-4 shadow">
+			<div className="mx-auto flex max-w-7xl items-center justify-between">
 				<div>
 					<Link href="/" prefetch={false}>
 						<h1 className="text-bold font-dancing-script text-2xl">VitalMind Insight</h1>
