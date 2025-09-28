@@ -11,7 +11,7 @@ class ConversationService:
         self.repository = ConversationRepository(model=Conversation)
 
     @Transaction()
-    async def create_conversation(self, title: str, session: AsyncSession):
+    async def create_conversation(self, title: str, *, session: AsyncSession):
         try:
             return await self.repository.create_conversation(title, session)
         except Exception as exc:
