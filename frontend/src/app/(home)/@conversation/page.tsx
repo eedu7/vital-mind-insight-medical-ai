@@ -1,3 +1,5 @@
+import { ConversationPageView } from "@/modules/conversation/layout/ConversationPageView";
+
 export default function ConversationPage() {
-	return <div>ConversationPage</div>;
+	return <ConversationPageView />;
 }
