@@ -5,10 +5,10 @@ import React from "react";
 
 interface HomeLayoutProps {
 	home: React.ReactNode;
-	conversations: React.ReactNode;
+	conversation: React.ReactNode;
 }
 
-export default function HomeLayout({ conversations: ConversationPage, home: HomePage }: HomeLayoutProps) {
+export default function HomeLayout({ conversation: ConversationPage, home: HomePage }: HomeLayoutProps) {
 	const { isAuthenticated } = useAuth();
 	return <div>{isAuthenticated ? ConversationPage : HomePage}</div>;
 }
