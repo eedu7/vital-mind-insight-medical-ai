@@ -8,7 +8,7 @@ interface HomeLayoutProps {
 	conversations: React.ReactNode;
 }
 
-export default function HomeLayout({ conversations: ConversationsPage, home: HomePage }: HomeLayoutProps) {
+export default function HomeLayout({ conversations: ConversationPage, home: HomePage }: HomeLayoutProps) {
 	const { isAuthenticated } = useAuth();
-	return <div>{isAuthenticated ? ConversationsPage : HomePage}</div>;
+	return <div>{isAuthenticated ? ConversationPage : HomePage}</div>;
 }
