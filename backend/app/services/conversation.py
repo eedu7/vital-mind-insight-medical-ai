@@ -32,9 +32,7 @@ class ConversationService:
             )
 
         if not conversations:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=f"Error conversation with uuid {uuid} not found."
-            )
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Error conversations not found.")
         return cast(List[Conversation], conversations)
 
     async def get_by_uuid(self, uuid: UUID, user_id: int, session: AsyncSession) -> List[Conversation]:
