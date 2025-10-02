@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { TanstackReactQueryProvider } from "@/lib/api";
 import { AuthProvider } from "@/modules/auth/providers";
 import type { Metadata } from "next";
@@ -41,6 +42,7 @@ export default async function RootLayout({
 				<TanstackReactQueryProvider>
 					<AuthProvider initialAuth={isAuthenticated}>{children}</AuthProvider>
 				</TanstackReactQueryProvider>
+				<Toaster />
 			</body>
 		</html>
 	);

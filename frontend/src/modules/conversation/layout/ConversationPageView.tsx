@@ -1,8 +1,20 @@
+"use client";
 import { PromptInput } from "@/modules/conversation/components/PromptInput";
 import { PrePromptCard } from "@/modules/conversation/components/ui/PrePromptCard";
+import { useConversation } from "@/modules/conversation/hooks/useConversation";
 import { IconChecklist, IconCode, IconSparkles, IconUser } from "@tabler/icons-react";
+import { useState } from "react";
 
 export const ConversationPageView = () => {
+	const [prompt, setPrompt] = useState("");
+	const { create } = useConversation();
+
+	const onSubmit = () => {
+		create.mutateAsync({
+			title: prompt,
+		});
+	};
+
 	return (
 		<div className="mx-auto flex h-screen w-full max-w-4xl flex-col justify-between gap-y-12 py-12">
 			<div className="flex flex-1 flex-col items-center justify-center gap-y-12">
@@ -20,7 +32,7 @@ export const ConversationPageView = () => {
 				</div>
 			</div>
 			<div>
-				<PromptInput />
+				<PromptInput value={prompt} onChange={setPrompt} onClick={onSubmit} isPending={create.isPending} />
 			</div>
 		</div>
 	);
